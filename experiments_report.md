@@ -8,7 +8,7 @@ toc: truec
 geometry: margin=1in
 ---
 
----
+\newpage
 
 # Preface
 
@@ -22,8 +22,8 @@ The  **VLAI Vulnerability Severity Classification** model developed at CIRCL is 
 
 [^1]: [https://arxiv.org/abs/2507.03607](https://arxiv.org/abs/2507.03607)
 
-\newpage
 
+---
 
 # GPU Architectures Used for Benchmarking
 
