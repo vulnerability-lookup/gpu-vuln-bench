@@ -185,6 +185,10 @@ The energy consumption is tracked using ``nvidia-ml-py``library.
 Reference: [https://mlco2.github.io/codecarbon/methodology.html#gpu](https://mlco2.github.io/codecarbon/methodology.html#gpu)
 
 
+## Environmental Considerations
+
+Our server room is hosted in LuxConnect’s data centers, which are powered entirely by renewable energy (https://www.luxconnect.lu/infrastructure).
+
 
 # Feedback
 
