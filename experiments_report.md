@@ -144,7 +144,7 @@ The environment used for training:
 
 CodeCarbon primarily calculates the energy used by **RAM** through a **power consumption model** based on estimations, rather than direct hardware measurement, unless specific system features are available.
 
-The power istemation for a "large server" is approximately 40W (using 8x128GB DIMMs with high efficiency scaling).
+The power estimation for a "large server" is approximately 40W (using 8x128GB DIMMs with high efficiency scaling).
 
 Reference: [https://mlco2.github.io/codecarbon/methodology.html#ram](https://mlco2.github.io/codecarbon/methodology.html#ram)
 
@@ -180,7 +180,7 @@ Reference: [https://mlco2.github.io/codecarbon/parameters.html](https://mlco2.gi
 
 ## Related to CodeCarbon's GPU Energy Calculation
 
-The energy consumptyion is tracked using ``nvidia-ml-py``library.
+The energy consumption is tracked using ``nvidia-ml-py``library.
 
 Reference: [https://mlco2.github.io/codecarbon/methodology.html#gpu](https://mlco2.github.io/codecarbon/methodology.html#gpu)
 
@@ -201,6 +201,7 @@ The project aims to create advanced artificial intelligence-based tools that wil
 AIPITCH aims to create a comprehensive set of tools supporting key operational services in cyber defense. These include technologies for early threat detection, automatic malware classification, and improvement of analytical processes through the integration of Large Language Models (LLM). The project has the potential to set new standards in the cybersecurity industry.
 
 The project leader is NASK National Research Institute. The international consortium includes:
+
 - CIRCL (Computer Incident Response Center Luxembourg), Luxembourg
 - The Shadowserver Foundation, Netherlands
 - NCBJ (National Centre for Nuclear Research), Poland
