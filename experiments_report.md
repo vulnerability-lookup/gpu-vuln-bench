@@ -169,11 +169,13 @@ Once the estimated **RAM Power** (in Watts) is determined, the **Energy Consumed
 $$\text{Energy (kWh)} = \frac{\text{Power (Watts)} \times \text{Time (hours)}}{1000}$$
 
 
-### Direct Measurement Alternativev
+### Direct Measurement Alternative
 
 On Linux systems, CodeCarbon offers a more accurate method with the **Intel Running Average Power Limit (RAPL)** interface.
 
 * If the `rapl_include_dram` parameter is set to `True`, CodeCarbon will attempt to use the **direct power measurement** for the DRAM (memory subsystem) provided by RAPL, overriding the fixed power estimation model. This method offers the most precise consumption data when available.
+
+Reference: [https://mlco2.github.io/codecarbon/parameters.html](https://mlco2.github.io/codecarbon/parameters.html)
 
 
 ## Related to CodeCarbon's GPU Energy Calculation
