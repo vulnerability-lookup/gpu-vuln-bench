@@ -1,6 +1,12 @@
 # Benchmarking GPU Performance in Vulnerability Severity Model Training
 
 
+## Read the report
+
+The report is available here:
+
+- [gpu-performance-vuln-model.pdf](gpu-performance-vuln-model.pdf)
+
 
 ## Usage
 
@@ -39,4 +45,15 @@ The project leader is NASK National Research Institute. The international consor
 - ABI LAB (Centre of Research and Innovation for Banks), Italy
 
 Funded by the European Union. Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or the European Cybersecurity Competence Centre. Neither the European Union nor the European Cybersecurity Competence Centre can be held responsible for them.
+
+
+## License
+
+[This work](https://github.com/vulnerability-lookup/gpu-vuln-bench) is licensed under
+[GNU General Public License version 3](https://www.gnu.org/licenses/gpl-3.0.html)
+
+~~~
+Copyright (c) 2025 Computer Incident Response Center Luxembourg (CIRCL)
+Copyright (C) 2025 Cédric Bonhomme - https://github.com/cedricbonhomme
+~~~
 
