@@ -134,6 +134,52 @@ The environment used for training:
 
 
 
+# Resources
+
+## Related to CodeCarbon's RAM Energy Calculation
+
+CodeCarbon primarily calculates the energy used by **RAM** through a **power consumption model** based on estimations, rather than direct hardware measurement, unless specific system features are available.
+
+The power istemation for a "large server" is approximately 40W (using 8x128GB DIMMs with high efficiency scaling).
+
+Reference: [https://mlco2.github.io/codecarbon/methodology.html#ram](https://mlco2.github.io/codecarbon/methodology.html#ram)
+
+
+### Estimation Methodology
+
+The default method relies on a fixed power consumption value per installed RAM module (DIMM):
+
+1.  **Fixed Power per DIMM:** A standardized, average power consumption value is assigned to each RAM module.
+    * For **x86 Systems** (most standard laptops/desktops), this is typically set at **5 Watts** per DIMM.
+    * For **ARM Systems** (e.g., Raspberry Pi), a lower base power, like **1.5W** per DIMM, or a constant of **3W**, is used.
+2.  **Counting RAM Modules:** CodeCarbon attempts to determine the **number of installed RAM modules (DIMMs)** on the system by querying the operating system.
+3.  **Total Power Calculation:** The estimated total RAM power is calculated by multiplying these two values:
+    $$\text{RAM Power (Watts)} = \text{Fixed Power per DIMM} \times \text{Number of RAM Slots Used}$$
+4.  **Scaling (for Servers):** For systems with many DIMMs (e.g., servers with 8+ slots), a scaling factor is applied to reduce the power assigned to each additional DIMM, acknowledging that power consumption doesn't increase strictly linearly in large configurations.
+
+
+### Energy Calculation
+
+Once the estimated **RAM Power** (in Watts) is determined, the **Energy Consumed** (in kilowatt-hours, or kWh) is calculated based on the duration of the code execution:
+
+$$\text{Energy (kWh)} = \frac{\text{Power (Watts)} \times \text{Time (hours)}}{1000}$$
+
+
+### Direct Measurement Alternativev
+
+On Linux systems, CodeCarbon offers a more accurate method with the **Intel Running Average Power Limit (RAPL)** interface.
+
+* If the `rapl_include_dram` parameter is set to `True`, CodeCarbon will attempt to use the **direct power measurement** for the DRAM (memory subsystem) provided by RAPL, overriding the fixed power estimation model. This method offers the most precise consumption data when available.
+
+
+## Related to CodeCarbon's GPU Energy Calculation
+
+The energy consumptyion is tracked using ``nvidia-ml-py``library.
+
+Reference: [https://mlco2.github.io/codecarbon/methodology.html#gpu](https://mlco2.github.io/codecarbon/methodology.html#gpu)
+
+
+
 # Feedback
 
 Feel free to share your feedback at [info@circl.lu](mailto:info@circl.lu).
