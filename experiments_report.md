@@ -91,11 +91,11 @@ The following hyperparameters were used during training:
 
 The environment used for training:
 
-- **Python:** 3.12.3  
-- **Transformers:** 4.57.1  
-- **PyTorch:** 2.9.1+cu128  
-- **Datasets:** 4.4.1  
-- **Tokenizers:** 0.22.1  
+- **Python:** 3.12.3
+- **Transformers:** 4.57.1
+- **PyTorch:** 2.9.1+cu128
+- **Datasets:** 4.4.1
+- **Tokenizers:** 0.22.1
 
 
 
