@@ -62,12 +62,16 @@ This dataset is periodically updated with data collected with [Vulnerability-Loo
 
 # Model
 
-
 The resulting model is available at on Hugging Face[^3].
 This model is a fine-tuned version of [roberta-base](https://huggingface.co/roberta-base) on the dataset [CIRCL/vulnerability-scores](https://huggingface.co/datasets/CIRCL/vulnerability-scores).
 
 
 [^3]: [https://huggingface.co/CIRCL/vulnerability-severity-classification-roberta-base](https://huggingface.co/CIRCL/vulnerability-severity-classification-roberta-base)
+
+
+The code fo the trainer is available in the VulnTrain project[^4].
+
+[^4]: [https://github.com/vulnerability-lookup/VulnTrain](https://github.com/vulnerability-lookup/VulnTrain)
 
 
 ## Training Hyperparameters
