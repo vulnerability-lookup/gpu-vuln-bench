@@ -5,6 +5,7 @@ author: CIRCL Team
 date: 2025-11-26
 tags: ["ai", "benchmark", "vulnerability-classification", "VulnTrain"]
 toc: truec
+numbersections: true
 geometry: margin=1in
 ---
 
@@ -187,7 +188,7 @@ Reference: [https://mlco2.github.io/codecarbon/methodology.html#gpu](https://mlc
 
 ## Environmental Considerations
 
-Our server room is hosted in LuxConnect’s data centers, which are powered entirely by renewable energy (https://www.luxconnect.lu/infrastructure).
+Our server room is hosted in LuxConnect’s data centers, which are powered entirely by renewable energy ([https://www.luxconnect.lu/infrastructure](https://www.luxconnect.lu/infrastructure)).
 
 
 # Feedback
