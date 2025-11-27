@@ -1,11 +1,8 @@
-#!/usr/bin/env python3
-
 import json
 import sys
-import pandas as pd
+import pandas as pd  # type: ignore[import-untyped]
 import matplotlib.pyplot as plt
 from pathlib import Path
-import re # Import the regex module
 
 """
 Usage:
@@ -99,7 +96,7 @@ def plot_stacked_bar(labels, cpu_energy, gpu_energy, ram_energy, ylabel, title, 
                     color='black'
                 )
 
-    # --- NEW: Add Total Value Above the Stacked Bar ---
+    # --- Add Total Value Above the Stacked Bar ---
     for i, total in enumerate(total_energy):
         if total > 0.01:
             # Place the total label right above the top of the RAM bar
@@ -155,9 +152,7 @@ def main():
     for f in csv_files:
         row = load_csv(f)
         
-        # Improved label cleaning: remove an optional number_ prefix (e.g., "2_")
         label_stem = Path(f).stem
-        # cleaned_label = re.sub(r'^\d+_', '', label_stem).replace("_", " ")
         cleaned_label = label_stem.replace("_", " ")
         gpu_model = row.get("gpu_model", "Unknown GPU")
 
@@ -216,7 +211,7 @@ def main():
              output="energy_consumption_comparison.png",
              color='#b2df8a') 
     
-    # New Emissions Bar Chart
+    # Emissions Bar Chart
     plot_bar(labels, emissions,
              ylabel="Total Emissions (kg CO2eq)",
              title="Emissions Comparison",
@@ -284,8 +279,8 @@ def main():
     print("  - duration_comparison.png")
     print("  - gpu_power_comparison.png")
     print("  - energy_consumption_comparison.png")
-    print("  - emissions_comparison.png (NEW)")
-    print("  - energy_breakdown_comparison.png (NEW)")
+    print("  - emissions_comparison.png")
+    print("  - energy_breakdown_comparison.png")
     print("  - scatter_gpu_power_vs_duration.png")
     print("  - scatter_energy_vs_duration.png")
     print("  - scatter_gpu_power_vs_energy.png")
