@@ -6,7 +6,7 @@
 The report is available here:
 
 - [gpu-performance-vuln-model.pdf](gpu-performance-vuln-model.pdf)
-
+c
 
 ## Usage
 
@@ -32,19 +32,21 @@ pandoc experiments_report.md -f markdown-implicit_figures --toc -t pdf -o gpu-pe
 
 ## Funding
 
-![EU Funding  ](europe.png)
+![EU Funding](europe.png)
 
-The project aims to create advanced artificial intelligence-based tools that will improve the operations of cybersecurity teams (e.g., sector-level or national-level CSIRT teams, or SOC teams in companies and institutions). These tools will enable faster detection, analysis, and neutralization of threats. We plan to develop intelligent early warning systems, an AI chatbot for analyzing incident reports, and datasets representing current cyberattacks. Work on these solutions has just begun, involving teams from Poland, Luxembourg, the Netherlands, and Italy.
-
-AIPITCH aims to create a comprehensive set of tools supporting key operational services in cyber defense. These include technologies for early threat detection, automatic malware classification, and improvement of analytical processes through the integration of Large Language Models (LLM). The project has the potential to set new standards in the cybersecurity industry.
+[AIPITCH](https://www.science.nask.pl/en/research-areas/projects/12456) aims to create advanced artificial intelligence-based tools supporting key operational services in cyber defense.
+These include technologies for early threat detection, automatic malware classification, and improvement of analytical processes through the integration of Large Language Models (LLM).
+The project has the potential to set new standards in the cybersecurity industry.
 
 The project leader is NASK National Research Institute. The international consortium includes:
+
 - CIRCL (Computer Incident Response Center Luxembourg), Luxembourg
 - The Shadowserver Foundation, Netherlands
 - NCBJ (National Centre for Nuclear Research), Poland
 - ABI LAB (Centre of Research and Innovation for Banks), Italy
 
-Funded by the European Union. Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or the European Cybersecurity Competence Centre. Neither the European Union nor the European Cybersecurity Competence Centre can be held responsible for them.
+Funded by the European Union. Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or the European Cybersecurity Competence Centre.
+Neither the European Union nor the European Cybersecurity Competence Centre can be held responsible for them.
 
 
 ## License
