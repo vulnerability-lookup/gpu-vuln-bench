@@ -26,7 +26,7 @@ The ``data`` folder should contain the raw CSV files of each experiment. Version
 ### Update the PDF report
 
 ```
-pandoc experiments_report.md -f markdown-implicit_figures --toc -t pdf -o gpu-performance-vuln-model.pdf
+pandoc experiments_report.md -f markdown-implicit_figures --toc --number-sections -t pdf -o gpu-performance-vuln-model.pdf
 ```
 
 

@@ -13,7 +13,7 @@ pip install --upgrade pip
 pip install -r requirements.txt
 python compare_experiments.py data/2_NVIDIA_L40S.csv data/2_NVIDIA_H100_NVL.csv data/4_NVIDIA_L40S.csv
 
-pandoc experiments_report.md -f markdown-implicit_figures --toc -t pdf -o gpu-performance-vuln-model.pdf
+pandoc experiments_report.md -f markdown-implicit_figures --toc --number-sections -t pdf -o gpu-performance-vuln-model.pdf
 """
 
 def load_csv(file_path):

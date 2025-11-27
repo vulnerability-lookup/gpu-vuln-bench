@@ -2,52 +2,52 @@
     {
         "label": "2 NVIDIA L40S",
         "gpu_model": "2 x NVIDIA L40S",
-        "duration_seconds": 24147.412700983696,
-        "gpu_power_watts": 286.31103898999135,
-        "energy_kwh": 4.122077099331081,
-        "emissions_kg_co2eq": 0.4339022017068876,
+        "duration_seconds": 23588.992779433727,
+        "gpu_power_watts": 203.02573644828948,
+        "energy_kwh": 4.041626881511759,
+        "emissions_kg_co2eq": 0.4254337704285723,
         "energy_breakdown_kwh": {
-            "cpu": 0.2848920588698454,
-            "gpu": 3.204789319384957,
-            "ram": 0.6323957210762677
+            "cpu": 0.2783030393523716,
+            "gpu": 3.145554637830571,
+            "ram": 0.6177692043288232
         },
         "metrics": {
-            "energy_per_second_kwh": 0.00017070471070232545,
-            "seconds_per_kwh": 5858.069152782773
+            "energy_per_second_kwh": 0.00017133528842467097,
+            "seconds_per_kwh": 5836.509274851798
         }
     },
     {
         "label": "2 NVIDIA H100 NVL",
         "gpu_model": "2 x NVIDIA H100 NVL",
-        "duration_seconds": 18042.404894045,
-        "gpu_power_watts": 360.8287762733843,
-        "energy_kwh": 7.189335436228231,
-        "emissions_kg_co2eq": 0.7567710160236923,
+        "duration_seconds": 18300.168969716004,
+        "gpu_power_watts": 401.6793922452096,
+        "energy_kwh": 7.263001631003871,
+        "emissions_kg_co2eq": 0.7645253406843606,
         "energy_breakdown_kwh": {
-            "cpu": 0.2128334216121308,
-            "gpu": 3.192265448532537,
-            "ram": 3.784236566083551
+            "cpu": 0.2158592867670614,
+            "gpu": 3.2092093215320707,
+            "ram": 3.837933022704749
         },
         "metrics": {
-            "energy_per_second_kwh": 0.00039846880049793765,
-            "seconds_per_kwh": 2509.6067715976064
+            "energy_per_second_kwh": 0.00039688167049293556,
+            "seconds_per_kwh": 2519.6426903716124
         }
     },
     {
         "label": "4 NVIDIA L40S",
         "gpu_model": "4 x NVIDIA L40S",
-        "duration_seconds": 13852.229487212,
-        "gpu_power_watts": 368.36674694097474,
-        "energy_kwh": 6.400209917436596,
-        "emissions_kg_co2eq": 0.6737052965391285,
+        "duration_seconds": 14025.962090314992,
+        "gpu_power_watts": 648.320803546605,
+        "energy_kwh": 6.45748659473281,
+        "emissions_kg_co2eq": 0.6797344114213598,
         "energy_breakdown_kwh": {
-            "cpu": 0.1632387288614428,
-            "gpu": 3.334605714626882,
-            "ram": 2.9023654739482674
+            "cpu": 0.16529338886481,
+            "gpu": 3.3533296365504515,
+            "ram": 2.938863569317558
         },
         "metrics": {
-            "energy_per_second_kwh": 0.00046203464383441634,
-            "seconds_per_kwh": 2164.3398678960953
+            "energy_per_second_kwh": 0.0004603952693692037,
+            "seconds_per_kwh": 2172.0466445498428
         }
     }
 ]
