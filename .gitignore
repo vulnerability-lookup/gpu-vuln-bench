@@ -37,4 +37,5 @@ emissions.csv
 vulntrain/config/conf.py
 vulnerability/
 results/
+*.png
 
