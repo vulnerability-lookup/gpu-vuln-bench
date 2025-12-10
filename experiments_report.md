@@ -77,10 +77,19 @@ The code fo the trainer is available in the VulnTrain project[^4].
 
 ## Training Hyperparameters
 
+
+
+| Experiment | Final Loss | Final Accuracy | Epochs to Converge | Batch Size | Steps per Epoch |
+| ---------- | ---------- | -------------- | ------------------ | ---------- | --------------- |
+| A          | 1.1559     | 0.3766         | 5                  | 16         | 29952           |
+| B          | 0.5039     | 0.8253         | 5                  | 16         | 29952           |
+| C          | 0.4857     | 0.8246         | 5                  | 32         | 14976           |
+
+
+
 The following hyperparameters were used during training:
 
 - **Learning rate:** `3e-05`
-- **Train batch size:** `16`
 - **Eval batch size:** `16`
 - **Seed:** `42`
 - **Optimizer:** `ADAMW_TORCH_FUSED`

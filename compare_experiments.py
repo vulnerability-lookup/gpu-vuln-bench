@@ -1,8 +1,10 @@
 import json
 import sys
-import pandas as pd  # type: ignore[import-untyped]
-import matplotlib.pyplot as plt
+from math import pi
 from pathlib import Path
+
+import matplotlib.pyplot as plt
+import pandas as pd  # type: ignore[import-untyped]
 
 """
 Usage:
@@ -137,6 +139,33 @@ def plot_scatter(x, y, labels, colors, xlabel, ylabel, title, output):
     plt.savefig(output)
     plt.close()
 
+
+def plot_radar_comparison(experiments):
+    """Generate a single radar chart comparing CPU/GPU/RAM energy breakdown for all experiments."""
+    categories = ["CPU (kWh)", "GPU (kWh)", "RAM (kWh)"]
+    N = len(categories)
+    angles = [n / float(N) * 2 * pi for n in range(N)]
+    angles += angles[:1]  # Close the loop
+
+    plt.figure(figsize=(8, 8))
+    ax = plt.subplot(111, polar=True)
+
+    for e in experiments:
+        values = [e["cpu_energy"], e["gpu_energy"], e["ram_energy"]]
+        values += values[:1]  # Close the loop
+        ax.plot(angles, values, linewidth=2, label=e["label"])
+        ax.fill(angles, values, alpha=0.25)
+
+    plt.xticks(angles[:-1], categories)
+    plt.title("CPU/GPU/RAM Energy Breakdown per Experiment (kWh)", fontsize=14, y=1.08)
+    ax.legend(loc='upper right', bbox_to_anchor=(1.3, 1.1))  # Avoid overlapping
+
+    plt.tight_layout()
+    plt.savefig("radar_energy_comparison.png")
+    plt.close()
+
+
+
 def main():
     if len(sys.argv) < 3:
         print("Usage: python compare_experiments.py exp1.csv exp2.csv [exp3.csv ...]")
@@ -244,6 +273,12 @@ def main():
                  ylabel="Energy Consumed (kWh)",
                  title="GPU Power vs Energy Consumed",
                  output="scatter_gpu_power_vs_energy.png")
+
+
+    # ---------- RADAR CHARTS ----------
+    print("Generating Radar Comparison Chart for CPU/GPU/RAM Energy Breakdown...")
+    plot_radar_comparison(experiments)
+
 
     # ---------- JSON SUMMARY ----------
     print("Generating JSON Summary...")
