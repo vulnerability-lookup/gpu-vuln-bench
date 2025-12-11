@@ -82,7 +82,10 @@ Dataset statistics:
 - Downloaded size: 159 MB
 - Auto-converted Parquet size: 159 MB
 
-The test split accounts for **10%** of the dataset.
+The test split accounts for **10%** of the dataset and can be configured in [VulnTrain](https://github.com/vulnerability-lookup/VulnTrain).  
+
+> VulnTrain is developed as part of the AIPITCH project and is integrated with Vulnerability-Lookup via ML-Gateway—a FastAPI-based local server that > loads one or more pre-trained NLP models at startup and exposes them through a clean, RESTful API for inference.  
+For more details, see: [https://github.com/vulnerability-lookup/ML-Gateway](https://github.com/vulnerability-lookup/ML-Gateway).
 
 This dataset is periodically updated with data collected with [Vulnerability-Lookup](https://vulnerability.circl.lu).
 
@@ -102,8 +105,7 @@ Intermediate models are also available on Hugging Face and are versioned for rep
 - [https://huggingface.co/CIRCL/vulnerability-severity-classification-roberta-base-expC](https://huggingface.co/CIRCL/vulnerability-severity-classification-roberta-base-expC)
 
 
-The code fo the trainer is available in the VulnTrain project:  
-[https://github.com/vulnerability-lookup/VulnTrain](https://github.com/vulnerability-lookup/VulnTrain)
+The code of the trainer is available in the VulnTrain project.
 
 
 ## Training Hyperparameters
