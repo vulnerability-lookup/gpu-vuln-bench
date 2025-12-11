@@ -1,13 +1,19 @@
 ---
-title: Benchmarking GPU Performance in Vulnerability Severity Model Training
-description: Benchmarking GPU Performance in Vulnerability Severity Model Training
-author: CIRCL Team
-date: 2025-11-27
+title: "GPU Efficiency in VLAI Model Training"
+subtitle: "Experiences and Benchmarks from Months of VLAI Vulnerability Severity Classification Model Training"
+description: "This document summarizes the benchmarking, training configuration, and performance results obtained while generating the Vulnerability Severity Classification model across different GPU architectures."
+author: CIRCL - Computer Incident Response Center Luxembourg
+date: "2025-12-11"
 tags: ["ai", "benchmark", "vulnerability-classification", "VulnTrain"]
-toc: truec
-numbersections: true
-geometry: margin=1in
+toc: true
+lang: "en"
+titlepage: true,
+titlepage-text-color: "FFFFFF"
+titlepage-rule-color: "360049"
+titlepage-rule-height: 0
+titlepage-background: "background.pdf"
 ---
+
 
 \newpage
 
@@ -18,28 +24,33 @@ This document summarizes the benchmarking, training configuration, and performan
 The  **VLAI Vulnerability Severity Classification** model developed at CIRCL is regularly updated and shared on Hugging Face. It has been presented in:
 
 > Bonhomme, C., & Dulaunoy, A. (2025). *VLAI: A RoBERTa-Based Model for Automated Vulnerability Severity Classification* (Version 1.4.0) [Computer software].  
-> https://doi.org/10.48550/arXiv.2507.03607[^1]
+> [https://doi.org/10.48550/arXiv.2507.03607](https://arxiv.org/abs/2507.03607)
 
-
-[^1]: [https://arxiv.org/abs/2507.03607](https://arxiv.org/abs/2507.03607)
-
-All materials used to produce this technical report—including Matplotlib scripts, datasets, and other resources—are available in the Git repository:
+All materials used to produce this technical report—including Matplotlib scripts, datasets, and other resources—are available in the Git repository:  
 [https://github.com/vulnerability-lookup/gpu-vuln-bench](https://github.com/vulnerability-lookup/gpu-vuln-bench)
 
----
 
 # Environments used for benchmarking
 
 ## GPU Architectures
 
-The benchmarks in the following sections were performed on the GPU architectures listed below.
+The performance benchmarks were conducted on the GPU-accelerated systems described in the table 1.
+Each environment varies in CPU architecture, GPU type, and memory capacity, enabling us to
+evaluate model training efficiency across different hardware configurations.
 
+
+**Table 1:** GPU-accelerated systems used for benchmarking.
 
 | Environment | CPU Cores                            | GPU(s)                 | RAM       |
 |-------------|--------------------------------------|------------------------|-----------|
 | A           | 64  (AMD EPYC 9124 16-Core Processor)| 2 × NVIDIA L40S        | 251.5 GB  |
 | B           | 224 (Intel Xeon Platinum 8480+)      | 2 × NVIDIA H100 NVL    | 2,014 GB  |
 | C           | 224 (Intel Xeon Platinum 8480+)      | 4 × NVIDIA L40S        | 2,014 GB  |
+
+
+Each environment was used to execute a series of experiments designed to measure the throughput,
+memory utilization, and training time of the VLAI Vulnerability Severity Classification model.
+The following sections provide a detailed summary and analysis of these experiments.
 
 
 ## Framework Versions
@@ -55,39 +66,44 @@ The environment used for training:
 
 # Dataset
 
-The dataset used for training and evaluation is available on Hugging Face:
+The dataset used for training and evaluation is available on Hugging Face at the commit
+[2135755d8f42902de065d1ca30d800820b1e5cf1](https://huggingface.co/datasets/CIRCL/vulnerability-scores/tree/2135755d8f42902de065d1ca30d800820b1e5cf1).
 
 [https://huggingface.co/datasets/CIRCL/vulnerability-scores](https://huggingface.co/datasets/CIRCL/vulnerability-scores)
-
-at the commit ``cbb05f48e20e2186a80284de138cafee56b6544c``[^2].
 
 This is the updated version of the dataset referenced in ``arXiv.2507.03607``.
 
 Dataset statistics:
 
-- Number of rows: 657,024
-- Downloaded size: 162 MB
-- Auto-converted Parquet size: 162 MB
+- Number of rows: 642,080
+  - Train split: 577,872
+  - Test split: 64,208
+  - ref: [commit 2135755d8f42902de065d1ca30d800820b1e5cf1](https://huggingface.co/datasets/CIRCL/vulnerability-scores/commit/2135755d8f42902de065d1ca30d800820b1e5cf1)
+- Downloaded size: 159 MB
+- Auto-converted Parquet size: 159 MB
+
+The test split accounts for **10%** of the dataset.
 
 This dataset is periodically updated with data collected with [Vulnerability-Lookup](https://vulnerability.circl.lu).
-
-[^2]: [https://huggingface.co/datasets/CIRCL/vulnerability-scores/tree/cbb05f48e20e2186a80284de138cafee56b6544c](https://huggingface.co/datasets/CIRCL/vulnerability-scores/tree/cbb05f48e20e2186a80284de138cafee56b6544c)
 
 
 # Model training
 
 ## Resulting models
 
-The main model is available on Hugging Face[^3].  
+The main model is available on Hugging Face:  
+[https://huggingface.co/CIRCL/vulnerability-severity-classification-roberta-base](https://huggingface.co/CIRCL/vulnerability-severity-classification-roberta-base)
+
 It is a fine-tuned version of [RoBERTa-base](https://huggingface.co/roberta-base) trained on the [CIRCL/vulnerability-scores](https://huggingface.co/datasets/CIRCL/vulnerability-scores) dataset.  
-Intermediate models are also available on Hugging Face and are versioned for reproducibility.
+Intermediate models are also available on Hugging Face and are versioned for reproducibility:
+
+- [https://huggingface.co/CIRCL/vulnerability-severity-classification-roberta-base-expA](https://huggingface.co/CIRCL/vulnerability-severity-classification-roberta-base-expA)
+- [https://huggingface.co/CIRCL/vulnerability-severity-classification-roberta-base-expB](https://huggingface.co/CIRCL/vulnerability-severity-classification-roberta-base-expB)
+- [https://huggingface.co/CIRCL/vulnerability-severity-classification-roberta-base-expC](https://huggingface.co/CIRCL/vulnerability-severity-classification-roberta-base-expC)
 
 
-[^3]: [https://huggingface.co/CIRCL/vulnerability-severity-classification-roberta-base](https://huggingface.co/CIRCL/vulnerability-severity-classification-roberta-base)
-
-The code fo the trainer is available in the VulnTrain project[^4].
-
-[^4]: [https://github.com/vulnerability-lookup/VulnTrain](https://github.com/vulnerability-lookup/VulnTrain)
+The code fo the trainer is available in the VulnTrain project:  
+[https://github.com/vulnerability-lookup/VulnTrain](https://github.com/vulnerability-lookup/VulnTrain)
 
 
 ## Training Hyperparameters
@@ -125,22 +141,23 @@ The **effective batch size** (batch size × number of GPUs) influences training 
 RoBERTa often benefits from slightly larger batches. For example, using a batch of 32 samples per step can reduce gradient noise and stabilize learning, leading to quicker convergence.
 
 
+**Figure 1:** Number of GPUs / Batch Size - Illustration 1
+
 ![# GPUs / Batch Size - Illustration 1](img/gpu-batch-size-example-1.png)
+
+**Figure 2:** Number of GPUs / Batch Size - Illustration 2
 
 ![# GPUs / Batch Size - Illustration 2](img/gpu-batch-size-example-2.png)
 
-In our case, the training set contains 657,024 samples. The visualizations use a simplified view to illustrate the concepts more clearly for learning purposes.
+Each colored rectangle represents a single training step, corresponding to one processed batch.
+An epoch ends once ``steps_per_epoch`` steps have been completed.
 
-The diagrams above illustrate how batch size, number of GPUs, and dataset size affect training steps per epoch:
-
-1. **Batch size per GPU (`per_device_batch`)**: Number of samples each GPU processes in a single step (forward + backward pass).
-2. **Effective batch size (`per_device_batch × #GPUs`)**: Total samples processed per step across all GPUs.
-3. **Step**: One forward + backward pass of the effective batch.
-4. **Epoch**: One full pass over the dataset.
-
+In our case, the training split contains 577,872 samples. The visualizations use a simplified view to illustrate the concepts more clearly for learning purposes.
+They illustrate how batch size, number of GPUs, and dataset size affect the number of training steps per epoch.
 
 
 ## Training results
+
 
 | Environment| Final Loss | Final Accuracy | Epochs to Converge | Batch Size | Steps per Epoch    |
 | ---------- | ---------- | -------------- | ------------------ | ---------- | ------------------ |
@@ -148,46 +165,54 @@ The diagrams above illustrate how batch size, number of GPUs, and dataset size a
 | B          | 0.2801     | 0.8230         | 5                  | 16         | **29470**          |
 | C          | 0.3793     | 0.8173         | 5                  | 32         | **14735**          |
 
+**Table 2:** Final training results for the different environments.
+
 Results in terms of **loss** and **accuracy** are very similar, regardless of the system used.  
 Each experiment produced slightly different rankings, but the differences are minimal.
 
+The samples per epoch is the same in each environments: 577872. Wich corresponds to 10 per cent of the
+dataset 
 
 ### Environment A
 
+Theoretically, ``samples_per_epoch`` should match the number of samples in the training split (577,872),
+but our trainer filters out entries with missing or unknown severity labels.
+As previously explained an **epoch** is one full pass over the entire training dataset.
+
+
 | Training Loss | Epoch |  Step  | Validation Loss | Accuracy | steps_per_epoch | samples_per_epoch |
 |--------------:|:-----:|-------:|----------------:|---------:|----------------:|-----------------:|
-| 0.4999        | 1.0   | **29470**  | 0.6657          | 0.7290   | 29470.0         | 471520.0         |
+| 0.4999        | 1.0   | **29470**  | 0.6657          | 0.7290   | 29470.0         | 471520.0     |
 | 0.5279        | 2.0   | 58940  | 0.5911          | 0.7685   | 29470.0         | 471520.0         |
 | 0.4775        | 3.0   | 88410  | 0.5392          | 0.7961   | 29470.0         | 471520.0         |
 | 0.3753        | 4.0   | 117880 | 0.5125          | 0.8122   | 29470.0         | 471520.0         |
 | 0.2537        | 5.0   | 147350 | 0.5169          | 0.8232   | 29470.0         | 471520.0         |
 
-https://huggingface.co/CIRCL/vulnerability-severity-classification-roberta-base-expA
+**Table 3:** Training results for an experiment with environment A
 
 ### Environment B
 
 | Training Loss | Epoch |  Step  | Validation Loss | Accuracy | steps_per_epoch | samples_per_epoch |
 |--------------:|:-----:|-------:|----------------:|---------:|----------------:|-----------------:|
-| 0.5379        | 1.0   | **29470**  | 0.6573          | 0.7358   | 29470.0         | 471520.0         |
+| 0.5379        | 1.0   | **29470**  | 0.6573          | 0.7358   | 29470.0         | 471520.0     |
 | 0.5714        | 2.0   | 58940  | 0.5810          | 0.7710   | 29470.0         | 471520.0         |
 | 0.4636        | 3.0   | 88410  | 0.5412          | 0.7918   | 29470.0         | 471520.0         |
 | 0.4738        | 4.0   | 117880 | 0.5098          | 0.8131   | 29470.0         | 471520.0         |
 | 0.2801        | 5.0   | 147350 | 0.5175          | 0.8230   | 29470.0         | 471520.0         |
 
-https://huggingface.co/CIRCL/vulnerability-severity-classification-roberta-base-expB
+**Table 4:** Training results for an experiment with environment B
 
 ### Environment C
 
 | Training Loss | Epoch |  Step  | Validation Loss | Accuracy | steps_per_epoch | samples_per_epoch |
 |--------------:|:-----:|-------:|----------------:|---------:|----------------:|-----------------:|
-| 0.6270        | 1.0   | **14735**  | 0.6594          | 0.7298   | 14735.0         | 471520.0         |
+| 0.6270        | 1.0   | **14735**  | 0.6594          | 0.7298   | 14735.0         | 471520.0     |
 | 0.5675        | 2.0   | 29470  | 0.5780          | 0.7693   | 14735.0         | 471520.0         |
 | 0.4690        | 3.0   | 44205  | 0.5363          | 0.7930   | 14735.0         | 471520.0         |
 | 0.4373        | 4.0   | 58940  | 0.5069          | 0.8107   | 14735.0         | 471520.0         |
 | 0.3793        | 5.0   | 73675  | 0.5071          | 0.8173   | 14735.0         | 471520.0         |
 
-https://huggingface.co/CIRCL/vulnerability-severity-classification-roberta-base-expC
-
+**Table 5:** Training results for an experiment with environment C
 
 Note that $147350 / 2 = 73675$.
 
@@ -204,7 +229,7 @@ This behavior is confirmed in all of our experiments.
 
 The chart shows the validation accuracy per epoch for the various experiments with the environments A, B, and C.  
 All experiments exhibit very similar accuracy trends.  
-Experiment C reaches higher accuracy more quickly in the early epochs, reflecting faster convergence per epoch due to a larger effective batch size (more GPUs × batch per device).  
+Experiments in environment C reaches higher accuracy more quickly in the early epochs, reflecting faster convergence per epoch due to a larger effective batch size (more GPUs × batch per device).  
 By the final epoch, all experiments achieve comparable accuracy (~0.82), indicating consistent model performance across the different setups.
 
 
@@ -217,7 +242,7 @@ By the final epoch, all experiments achieve comparable accuracy (~0.82), indicat
 - **Larger batch size per device → fewer steps per epoch**, but each step processes more data.
 - **Epoch duration** is proportional to number of steps × time per step, so increasing GPUs or batch size reduces total training time per epoch.
 
-This visual makes it easier to understand why Exp C (4 GPUs, batch size 8 per device → effective batch 32) completes fewer steps per epoch and thus runs faster per epoch than Exp A/B (2 GPUs, effective batch 16), even though the dataset and model are identical.
+Figure 1 and 2 make it easier to understand why Exp C (4 GPUs, batch size 8 per device → effective batch 32) completes fewer steps per epoch and thus runs faster per epoch than Exp A/B (2 GPUs, effective batch 16), even though the dataset and model are identical.
 
 
 # Benchmark Comparisons
@@ -310,10 +335,18 @@ Reference: [https://mlco2.github.io/codecarbon/methodology.html#gpu](https://mlc
 Our server room is hosted in LuxConnect’s data centers, which are powered entirely by renewable energy ([https://www.luxconnect.lu/infrastructure](https://www.luxconnect.lu/infrastructure)).
 
 
+## Litterature
+
+- "Natural Language Processing with Transformers"  
+  [https://www.librarything.com/work/27807959/281493045](https://www.librarything.com/work/27807959/281493045)
+- "How AI Works: From Sorcery to Science"  
+  [https://www.librarything.com/work/31127745/287620374](https://www.librarything.com/work/31127745/287620374)
+
+
 # Feedback
 
-Feel free to share your feedback at [info@circl.lu](mailto:info@circl.lu).
-
+Feel free to share your feedback at [info@circl.lu](mailto:info@circl.lu) or publicly:  
+https://github.com/vulnerability-lookup/gpu-vuln-bench/issues
 
 
 # Funding
