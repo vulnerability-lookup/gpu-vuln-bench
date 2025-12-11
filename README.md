@@ -3,10 +3,8 @@
 
 ## Read the report
 
-The report is available here:
+The report is available [here](gpu-performance-vuln-model.pdf).
 
-- [gpu-performance-vuln-model.pdf](gpu-performance-vuln-model.pdf)
-c
 
 ## Usage
 
