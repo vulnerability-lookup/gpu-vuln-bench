@@ -21,22 +21,40 @@ for e in range(epochs):
     x_start = 0
     for s in range(steps_per_epoch):
         rect = mpatches.Rectangle(
-            (x_start, y), effective_batch, height,
+            (x_start, y),
+            effective_batch,
+            height,
             facecolor=colors[s % len(colors)],
-            edgecolor="black"
+            edgecolor="black",
         )
         ax.add_patch(rect)
-        ax.text(x_start + effective_batch/2, y + height/2, f"Step {s+1}", 
-                ha='center', va='center', fontsize=8)
+        ax.text(
+            x_start + effective_batch / 2,
+            y + height / 2,
+            f"Step {s+1}",
+            ha="center",
+            va="center",
+            fontsize=8,
+        )
         x_start += effective_batch
     # Label epoch
-    ax.text(x_start + 0.5, y + height/2, f" Epoch {e+1}", ha='left', va='center', fontsize=10, fontweight='bold')
+    ax.text(
+        x_start + 0.5,
+        y + height / 2,
+        f" Epoch {e+1}",
+        ha="left",
+        va="center",
+        fontsize=10,
+        fontweight="bold",
+    )
     y += height + 0.2
 
-ax.set_xlim(0, dataset_size+20)
+ax.set_xlim(0, dataset_size + 20)
 ax.set_ylim(0, y)
 ax.set_xlabel("Samples processed")
 ax.set_yticks([])
-ax.set_title(f"Dataset={dataset_size}, per_device_batch={per_device_batch}, GPUs={num_gpus}, steps_per_epoch={steps_per_epoch}")
+ax.set_title(
+    f"Dataset={dataset_size}, per_device_batch={per_device_batch}, GPUs={num_gpus}, steps_per_epoch={steps_per_epoch}"
+)
 plt.tight_layout()
 plt.show()

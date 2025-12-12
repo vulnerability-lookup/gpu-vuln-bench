@@ -3,7 +3,7 @@
 
 ## Read the report
 
-The report is available [here](gpu-performance-vuln-model.pdf).
+The report is available [here](GPU_Efficiency_VLAI_Model_Training_2025.pdf).
 
 
 ## Usage
@@ -32,7 +32,7 @@ pandoc experiments_report.md \
   --toc \
   --number-sections \
   -t pdf \
-  -o gpu-performance-vuln-model.pdf
+  -o GPU_Efficiency_VLAI_Model_Training_2025.pdf
 ```
 
 

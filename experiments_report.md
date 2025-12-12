@@ -3,8 +3,8 @@ title: "GPU Efficiency in VLAI Model Training"
 subtitle: "Experiences and Benchmarks from Months of VLAI Vulnerability Severity Classification Model Training"
 description: "This document summarizes the benchmarking, training configuration, and performance results obtained while generating the Vulnerability Severity Classification model across different GPU architectures."
 author: CIRCL - Computer Incident Response Center Luxembourg
-date: "2025-12-11"
-tags: ["ai", "benchmark", "vulnerability-classification", "VulnTrain"]
+date: "2025-12-12"
+tags: ["NLP", "AI", "benchmark", "vulnerability-classification", "VulnTrain", "GPU"]
 toc: true
 lang: "en"
 titlepage: true,
@@ -19,7 +19,7 @@ titlepage-background: "background.pdf"
 
 # Preface
 
-This document summarizes the benchmarking, training configuration, and performance results obtained while generating the **Vulnerability Severity Classification** model across different GPU architectures.
+This document summarizes the benchmarking, training configuration, and performance results obtained while generating the **Vulnerability Severity Classification** model across different GPU architectures throughout 2025.
 
 The  **VLAI Vulnerability Severity Classification** model developed at CIRCL is regularly updated and shared on Hugging Face. It has been presented in:
 
@@ -39,13 +39,13 @@ Each environment varies in CPU architecture, GPU type, and memory capacity, enab
 evaluate model training efficiency across different hardware configurations.
 
 
-**Table 1:** GPU-accelerated systems used for benchmarking.
+**Table 1:** GPU-accelerated systems used for benchmarking in different environments.
 
-| Environment | CPU Cores                            | GPU(s)                 | RAM       |
-|-------------|--------------------------------------|------------------------|-----------|
-| A           | 64  (AMD EPYC 9124 16-Core Processor)| 2 × NVIDIA L40S        | 251.5 GB  |
-| B           | 224 (Intel Xeon Platinum 8480+)      | 2 × NVIDIA H100 NVL    | 2,014 GB  |
-| C           | 224 (Intel Xeon Platinum 8480+)      | 4 × NVIDIA L40S        | 2,014 GB  |
+| Env         | CPU                                  | GPU                    | RAM       | Location                            |
+|-------------|--------------------------------------|------------------------|-----------|-------------------------------------|
+| A           | 64  (AMD EPYC 9124 16-Core Processor)| 2 × NVIDIA L40S        | 251.5 GB  | CIRCL Server Lab (Luxembourg City)  |
+| B           | 224 (Intel Xeon Platinum 8480+)      | 2 × NVIDIA H100 NVL    | 2,014 GB  | LuxConnect Datacenter               |
+| C           | 224 (Intel Xeon Platinum 8480+)      | 4 × NVIDIA L40S        | 2,014 GB  | LuxConnect Datacenter               |
 
 
 Each environment was used to execute a series of experiments designed to measure the throughput,
@@ -55,7 +55,7 @@ The following sections provide a detailed summary and analysis of these experime
 
 ## Framework Versions
 
-The environment used for training:
+Main software and libraries used during the experiences:
 
 - **Python:** 3.12.3
 - **Transformers:** 4.57.1
@@ -82,15 +82,16 @@ Dataset statistics:
 - Downloaded size: 159 MB
 - Auto-converted Parquet size: 159 MB
 
-The test split accounts for **10%** of the dataset and can be configured in [VulnTrain](https://github.com/vulnerability-lookup/VulnTrain).  
+The test split accounts for **10%** of the dataset and can be configured in [VulnTrain](https://github.com/vulnerability-lookup/VulnTrain)
+([https://github.com/vulnerability-lookup/VulnTrain](https://github.com/vulnerability-lookup/VulnTrain)).  
 
-> VulnTrain is developed as part of the AIPITCH project and is integrated with Vulnerability-Lookup via ML-Gateway—a FastAPI-based local server that > loads one or more pre-trained NLP models at startup and exposes them through a clean, RESTful API for inference.  
+> VulnTrain is developed as part of the AIPITCH project and is integrated with Vulnerability-Lookup via **ML-Gateway**—a FastAPI-based local server that loads one or more pre-trained NLP models at startup and exposes them through a clean, RESTful API for inference.  
 For more details, see: [https://github.com/vulnerability-lookup/ML-Gateway](https://github.com/vulnerability-lookup/ML-Gateway).
 
 This dataset is periodically updated with data collected with [Vulnerability-Lookup](https://vulnerability.circl.lu).
 
 
-# Model training
+# Model Training
 
 ## Resulting models
 
@@ -172,8 +173,8 @@ They illustrate how batch size, number of GPUs, and dataset size affect the numb
 Results in terms of **loss** and **accuracy** are very similar, regardless of the system used.  
 Each experiment produced slightly different rankings, but the differences are minimal.
 
-The samples per epoch is the same in each environments: 577872. Wich corresponds to 10 per cent of the
-dataset 
+The samples per epoch is the same in each environments: 577,872. Wich corresponds to 10 per cent of the
+dataset .
 
 ### Environment A
 
@@ -232,7 +233,7 @@ This behavior is confirmed in all of our experiments.
 The chart shows the validation accuracy per epoch for the various experiments with the environments A, B, and C.  
 All experiments exhibit very similar accuracy trends.  
 Experiments in environment C reaches higher accuracy more quickly in the early epochs, reflecting faster convergence per epoch due to a larger effective batch size (more GPUs × batch per device).  
-By the final epoch, all experiments achieve comparable accuracy (~0.82), indicating consistent model performance across the different setups.
+By the final epoch, all experiments achieve **comparable accuracy** (~0.82), indicating consistent model performance across the different setups.
 
 
 ## Key Observations
@@ -247,8 +248,7 @@ By the final epoch, all experiments achieve comparable accuracy (~0.82), indicat
 Figure 1 and 2 make it easier to understand why Exp C (4 GPUs, batch size 8 per device → effective batch 32) completes fewer steps per epoch and thus runs faster per epoch than Exp A/B (2 GPUs, effective batch 16), even though the dataset and model are identical.
 
 
-# Benchmark Comparisons
-
+# Benchmark Comparisons Across Different Environments
 
 ## Duration
 
@@ -281,6 +281,76 @@ Figure 1 and 2 make it easier to understand why Exp C (4 GPUs, batch size 8 per 
 ## GPU Power vs. Energy
 
 ![GPU power vs energy](img/scatter_gpu_power_vs_energy.png)
+
+
+## Conclusion
+
+From our perspective, **Environment C** offers the best balance of performance and energy efficiency.
+The quality of the resulting model is not significantly affected by these small variations in batch size, and may in fact **remain completely unchanged**. We plan to explore additional configurations in the future using our new equipment.
+
+
+
+# Evolution of Experiments in Environment A
+
+We have been collecting data since February 2025 in **Environment A**, which is equipped with **2 × NVIDIA L40S GPUs**.
+The charts below illustrate the evolution of our experiments over the course of the year.
+(Environments B and C are too recent to provide meaningful data at this time.)
+
+![Evolution of the duration](img/duration_with_dataset_evolution.png)
+
+![Evolution of the energy consumption](img/energy_consumed_with_dataset_evolution.png)
+
+![Evolution of the GPU power used](img/gpu_power_with_dataset_evolution.png)
+
+The workload did not change enough to explain the summer peak:
+
+- The dataset size shows a nearly linear and steady growth.
+- We did not change the training hyperparameters or the base model (model size) in this configuration.
+- No changes were made to the GPU configuration.
+
+Our hypothesis is **thermal throttling** and **cooling overhead**.  
+CodeCarbon estimates total energy consumption using the **PUE (Power Usage Effectiveness)** of the environment.  
+If PUE increases during summer due to higher cooling requirements, the estimated energy usage rises, even if the GPU workload remains identical.
+
+When ambient temperatures increase, hardware may:
+
+- throttle its operating frequency,
+- reduce performance,
+- complete the same training steps over a longer duration.
+
+As a result, even if instantaneous power consumption remains similar, the overall job duration increases, which leads to a higher total energy consumption (more Joules).
+
+It must be noted that **Environment A is located in the CIRCL Server Lab in Luxembourg City**, where temperature is **not controlled** as strictly as in a datacenter.
+
+We will monitor temperature and environmental metrics in future experiments to quantify these effects more precisely.
+
+
+
+
+
+
+# Future Works
+
+The acquisition of our new equipment will allow us to conduct more experiments across a variety of configurations, enabling larger and more complex model training, which could have a greater impact (negative or positive) on model accuracy.
+
+As a first demonstration, we recently developed a text generation model designed to assist in writing vulnerability descriptions.
+This is a fine-tuned version of GPT-2 XL, the 1.5B parameter variant of GPT-2.
+The model is available here:
+[https://huggingface.co/CIRCL/vulnerability-description-generation-gpt2-xl](https://huggingface.co/CIRCL/vulnerability-description-generation-gpt2-xl)
+
+The model was trained in Environment C over approximately 34 hours.
+Training in Environment A was not feasible, even with the standard GPT-2 model, due to GPU memory limitations.
+
+In addition, we plan to improve our CWE classification model using the vulnerability patches we have collected
+([https://huggingface.co/datasets/CIRCL/vulnerability-cwe-patch](https://huggingface.co/datasets/CIRCL/vulnerability-cwe-patch)).
+
+We also plan to experiment with a RAG (Retrieval-Augmented Generation) system, which combines retrieval from a knowledge base with generative models to produce answers. This approach is particularly suited for domain-specific information, in our case software vulnerabilities.
+Alternatively, we may explore a Question-Answering (QA) system, focused on providing factual answers directly from our dataset.
+
+
+
+
+
 
 
 
@@ -344,11 +414,25 @@ Our server room is hosted in LuxConnect’s data centers, which are powered enti
 - "How AI Works: From Sorcery to Science"  
   [https://www.librarything.com/work/31127745/287620374](https://www.librarything.com/work/31127745/287620374)
 
+> Bonhomme, C., & Dulaunoy, A. (2025). *VLAI: A RoBERTa-Based Model for Automated Vulnerability Severity Classification* (Version 1.4.0) [Computer software].  
+> [https://doi.org/10.48550/arXiv.2507.03607](https://arxiv.org/abs/2507.03607)
+
+
+
+
+
+
 
 # Feedback
 
 Feel free to share your feedback at [info@circl.lu](mailto:info@circl.lu) or publicly:  
 https://github.com/vulnerability-lookup/gpu-vuln-bench/issues
+
+
+
+
+
+
 
 
 # Funding

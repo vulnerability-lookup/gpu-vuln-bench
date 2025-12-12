@@ -12,37 +12,43 @@ def parse_training_table(md_table: str, train_batch_size: int, epoch_durations=N
     md_table: string containing Markdown table
     train_batch_size: int, batch size used in training
     epoch_durations: list of seconds per epoch (optional)
-    
+
     Returns: DataFrame with added columns
     """
     # Split lines, ignore header separator (---)
     lines = [line.strip() for line in md_table.strip().splitlines() if line.strip()]
-    lines = [line for line in lines if not set(line) <= {'|', ':', '-'}]  # remove separator row
+    lines = [
+        line for line in lines if not set(line) <= {"|", ":", "-"}
+    ]  # remove separator row
 
     # Split by '|' and strip whitespace
     rows = []
     for line in lines[1:]:  # skip header
-        cells = [cell.strip() for cell in line.split('|')[1:-1]]  # remove leading/trailing empty cells
+        cells = [
+            cell.strip() for cell in line.split("|")[1:-1]
+        ]  # remove leading/trailing empty cells
         rows.append(cells)
 
     # Build DataFrame
-    df = pd.DataFrame(rows, columns=["Training Loss", "Epoch", "Step", "Validation Loss", "Accuracy"])
-    
+    df = pd.DataFrame(
+        rows, columns=["Training Loss", "Epoch", "Step", "Validation Loss", "Accuracy"]
+    )
+
     # Convert numeric columns
     for col in ["Training Loss", "Epoch", "Step", "Validation Loss", "Accuracy"]:
         df[col] = pd.to_numeric(df[col])
 
     # Compute steps per epoch
-    df['steps_per_epoch'] = df['Step'].diff().fillna(df['Step'].iloc[0])
-    
+    df["steps_per_epoch"] = df["Step"].diff().fillna(df["Step"].iloc[0])
+
     # Compute samples per epoch
-    df['samples_per_epoch'] = df['steps_per_epoch'] * train_batch_size
+    df["samples_per_epoch"] = df["steps_per_epoch"] * train_batch_size
 
     # Compute samples per second if epoch durations are provided
     if epoch_durations is not None:
         if len(epoch_durations) != len(df):
             raise ValueError("epoch_durations length must match number of epochs")
-        df['samples_per_sec'] = df['samples_per_epoch'] / pd.Series(epoch_durations)
+        df["samples_per_sec"] = df["samples_per_epoch"] / pd.Series(epoch_durations)
 
     return df
 
@@ -88,9 +94,6 @@ df_c = parse_training_table(md_table_c, train_batch_size=32)
 print(df_c)
 
 
-
-
-
 # plt.figure(figsize=(10,6))
 # plt.plot(df_a['Step'], (df_a['Step']*16), marker='o', linestyle='solid', label='Experiment A (Batch Size 16)')
 # plt.plot(df_b['Step'], (df_b['Step']*16), marker='+', linestyle='dashed', label='Experiment B (Batch Size 16)')
@@ -104,14 +107,14 @@ print(df_c)
 # plt.show()
 
 
-plt.figure(figsize=(10,6))
-plt.plot(df_a['Epoch'], df_a['Accuracy'], marker='o', label='Accuracy A')
-plt.plot(df_b['Epoch'], df_b['Accuracy'], marker='o', label='Accuracy B')
-plt.plot(df_c['Epoch'], df_c['Accuracy'], marker='o', label='Accuracy C')
+plt.figure(figsize=(10, 6))
+plt.plot(df_a["Epoch"], df_a["Accuracy"], marker="o", label="Accuracy A")
+plt.plot(df_b["Epoch"], df_b["Accuracy"], marker="o", label="Accuracy B")
+plt.plot(df_c["Epoch"], df_c["Accuracy"], marker="o", label="Accuracy C")
 plt.xlabel("Epoch")
 plt.ylabel("Accuracy")
 plt.title("Validation Accuracy per Epoch")
 plt.legend()
-plt.grid(True, linestyle='--', alpha=0.5)
+plt.grid(True, linestyle="--", alpha=0.5)
 plt.tight_layout()
 plt.show()
